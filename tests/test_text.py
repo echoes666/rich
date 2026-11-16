@@ -453,6 +453,26 @@ def test_right_crop():
     assert text._spans == [Span(0, 3, "red")]
 
 
+def test_right_crop_zero_or_negative_amount():
+    text = Text()
+    text.append("foo", "red")
+    text.right_crop(0)
+    assert str(text) == "foo"
+    assert len(text) == 3
+    text.right_crop(-1)
+    assert str(text) == "foo"
+    assert len(text) == 3
+    assert text._spans == [Span(0, 3, "red")]
+
+
+def test_right_crop_amount_larger_than_text():
+    text = Text("foo", "red")
+    text.right_crop(5)
+    assert str(text) == ""
+    assert len(text) == 0
+    assert text._spans == []
+
+
 def test_wrap_3():
     text = Text("foo bar baz")
     lines = text.wrap(Console(), 3)
